@@ -3,7 +3,7 @@
 package cmd
 
 import (
-	"go-firkinize/pkg/cfg"
+	"github.com/platform9/go-firkinize/pkg/cfg"
 	"os"
 	"go.uber.org/zap"
 	"github.com/spf13/cobra"
@@ -12,14 +12,14 @@ import (
 var (
 	// Consul server address
 	consulHostPort string
-	
+
 	// Consul server security token
 	consulToken string
 
 	// Consul scheme
 	consulScheme string
 
-	// Customer ID 
+	// Customer ID
 	customerID string
 
 	// regionID (if the service is region specific)
@@ -33,7 +33,7 @@ var (
 	rootCmd = &cobra.Command{
 		Use:   "firkinize",
 		Short: "A utility to get/set various configuration to Platform9 config store",
-		Long: `A simple utility that hides the complexity associated with Platform9 
+		Long: `A simple utility that hides the complexity associated with Platform9
 		config store i.e. consul/vault as of today.`,
 		PersistentPreRunE: func (cmd *cobra.Command, args []string) error {
 			var err error
@@ -63,7 +63,7 @@ func setupLogs() {
 	if debugLog {
 		config = zap.NewDevelopmentConfig()
 	} else {
-		config = zap.NewProductionConfig()				
+		config = zap.NewProductionConfig()
 	}
 	config.OutputPaths = []string{"stderr"}
 	logger, _ := config.Build()
@@ -74,13 +74,13 @@ func setupLogs() {
 func init() {
 	rootCmd.PersistentFlags().BoolVar(&debugLog, "debug", false,"Enable debug logging")
 	rootCmd.PersistentFlags().StringVar(&consulHostPort, "consul-host-port", os.Getenv("CONFIG_HOST_AND_PORT"), "Where to connect to consul server")
-	rootCmd.MarkFlagRequired("cosul-host-port")
+	rootCmd.MarkPersistentFlagRequired("consul-host-port")
 	rootCmd.PersistentFlags().StringVar(&consulToken, "consul-token", os.Getenv("CONSUL_HTTP_TOKEN"), "Security token to talk to consul server")
-	rootCmd.MarkFlagRequired("cosul-token")
+	rootCmd.MarkPersistentFlagRequired("consul-token")
 	rootCmd.PersistentFlags().StringVar(&consulScheme, "consul-scheme", os.Getenv("CONFIG_SCHEME"), "Consul API scheme can be http/https/jrpc")
-	rootCmd.MarkFlagRequired("cosul-scheme")
+	rootCmd.MarkPersistentFlagRequired("consul-scheme")
 	rootCmd.PersistentFlags().StringVar(&customerID, "customer-id", os.Getenv("CUSTOMER_ID"), "ID of the customer under which it is operating")
-	rootCmd.MarkFlagRequired("customer-id")
+	rootCmd.MarkPersistentFlagRequired("customer-id")
 	rootCmd.PersistentFlags().StringVar(&regionID, "region-id", os.Getenv("REGION_ID"), "ID of the region under which it is operating")
 }
 

@@ -11,28 +11,30 @@ There are only two subcommands avaialble today, more can be added later on.
 
 * get-keystone: will let you query the password for a service (in keystone)
 * add-keystone: will add entries for a service in the keystone service catalog but also would create user/password for the service. Password is randomly generated and user name is the name of the service itself.
+* create-db: will create database for a service
 
 ```
 ./go-firkinize
 A simple utility that hides the complexity associated with Platform9
-		config store i.e. consul/vault as of today.
+    config store i.e. consul/vault as of today.
 
 Usage:
   firkinize [command]
 
 Available Commands:
   add-keystone Keystone related commands
+  create-db    Create DB for service
   get-keystone Get Keystone related attributes
   help         Help about any command
 
 Flags:
-      --consul-host-port string   Where to connect to consul server (default "konsul-x.domain.com:3306")
-      --consul-scheme string      Consul API scheme can be http/https/jrpc (default "https")
-      --consul-token string       Security token to talk to consul server (default "xxx-xxcxcvxcv")
-      --customer-id string        ID of the customer under which it is operating (default "c423f1d3-xxxcvxc")
+      --consul-host-port string   Where to connect to consul server
+      --consul-scheme string      Consul API scheme can be http/https/jrpc
+      --consul-token string       Security token to talk to consul server
+      --customer-id string        ID of the customer under which it is operating
       --debug                     Enable debug logging
   -h, --help                      help for firkinize
-      --region-id string          ID of the region under which it is operating (default "6296dd9c-9c62-4da7-b239-882d004d36bb")
+      --region-id string          ID of the region under which it is operating
 
 Use "firkinize [command] --help" for more information about a command.
 ```
@@ -78,3 +80,12 @@ Add service URL to the keystone and also generate password to interact with keys
 ```
 
 The service-name is obvious, the ingress-suffix is to allow for flexibility to advertise additional suffix for example if you want to advertise qbert/v2 as the suffix instead of just qbert.
+
+## create-db
+Self explanatory
+
+```
+./go-firkinize create-db --service-name hagrid
+{"level":"info","ts":1612943409.0324764,"caller":"cfg/cfgmgr.go:202","msg":"Created DB 'hagrid' successfully"}
+{"level":"info","ts":1612943409.0376244,"caller":"cfg/cfgmgr.go:225","msg":"Granted all privileges to DB hagrid"}
+```

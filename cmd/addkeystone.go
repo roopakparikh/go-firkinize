@@ -14,9 +14,9 @@ var (
 
 func init() {
 	addKeystoneCmd.PersistentFlags().StringVar(&serviceName, "service-name", "", "Name of the service (example qbert)")
-	addKeystoneCmd.MarkFlagRequired("service-name")
+	addKeystoneCmd.MarkPersistentFlagRequired("service-name")
 	addKeystoneCmd.PersistentFlags().StringVar(&ingressSuffix, "ingress-suffix", "", "Ingress suffix  (example qbert/v2)")
-	addKeystoneCmd.MarkFlagRequired("service-name")
+	addKeystoneCmd.MarkPersistentFlagRequired("ingress-suffix")
 	rootCmd.AddCommand(addKeystoneCmd)
 }
 

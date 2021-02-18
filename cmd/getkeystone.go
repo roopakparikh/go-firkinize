@@ -11,7 +11,7 @@ import (
 
 func init() {
 	getKeystoneCmd.PersistentFlags().StringVar(&serviceName, "service-name", "", "Name of the service (example qbert)")
-	getKeystoneCmd.MarkFlagRequired("service-name")
+	getKeystoneCmd.MarkPersistentFlagRequired("service-name")
 	rootCmd.AddCommand(getKeystoneCmd)
 }
 
