@@ -5,7 +5,6 @@ package cmd
 import (
     "fmt"
     "github.com/spf13/cobra"
-    "go.uber.org/zap"
 )
 
 var (
@@ -28,9 +27,17 @@ var createDBCmd = &cobra.Command{
         if userName == "" {
             userName = serviceName
         }
-        err := cfgMgr.CreateDB(serviceName, userName)
+        dbPassword := cfgMgr.GetRandomPassword()
+        dbCreated, err := cfgMgr.CreateDB(serviceName, userName)
         if err != nil {
-            zap.L().Error("Error creating DB")
+            return err
+        }
+        grantsCreated, err := cfgMgr.CreateGrants(serviceName, userName, dbPassword)
+        if err != nil {
+            return err
+        }
+        if dbCreated || grantsCreated {
+            err := cfgMgr.UpdateConsul(serviceName, userName, dbPassword)
             return err
         }
         fmt.Println("db_name: ", serviceName)
